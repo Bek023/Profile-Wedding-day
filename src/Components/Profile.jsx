@@ -5,10 +5,11 @@ import {
     Form,
     Input,
     message,
-    Upload,
+    Upload
 } from 'antd';
 import UserData from '../data';
 import style from "./style/Profile.module.css";
+import '@ant-design/v5-patch-for-react-19';
 const normFile = e => {
     if (Array.isArray(e)) {
         return e;
@@ -49,12 +50,16 @@ const ProfileEdit = () => {
         const newPassword = values.passwordConfirm;
 
         if (oldPassword === UserData.password) {
+            console.log("1.1")
             if (newPassword && newPassword.length >= 8) {
+                console.log("1.2")
                 message.success("Muvaffaqiyatli yangilandi!");
             } else {
+                console.log("0.2")
                 message.error("Yangi parol kamida 8ta belgidan iborat bo'lishi kerak");
             }
         } else {
+            console.log("0.1")
             message.error("Eski parol noto‘g‘ri");
         }
     };
