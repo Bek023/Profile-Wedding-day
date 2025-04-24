@@ -4,8 +4,11 @@ import {
     Button,
     Form,
     Input,
+    message,
     Upload,
 } from 'antd';
+import UserData from '../data';
+import style from "./style/Profile.module.css";
 const normFile = e => {
     if (Array.isArray(e)) {
         return e;
@@ -14,7 +17,16 @@ const normFile = e => {
 };
 const ProfileEdit = () => {
     const [componentDisabled, setComponentDisabled] = useState(true);
-    const [fileList, setFileList] = useState([]);
+    const [fileList, setFileList] = useState([
+        {
+            uid: '-1',
+            name: 'profile.png',
+            status: 'done',
+            url: UserData.Image,
+        },
+    ]);
+    const [password, setPassword] = useState(null);
+    const [passwordConfirm, setPasswordConfirm] = useState(null);
     const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
     const validateMessages = {
         required: '${label} is required!',
@@ -32,53 +44,80 @@ const ProfileEdit = () => {
             <div style={{ marginTop: 8 }}>Upload</div>
         </button>
     );
+    const checkPassword = (values) => {
+        const oldPassword = values.password;
+        const newPassword = values.passwordConfirm;
+
+        if (oldPassword === UserData.password) {
+            if (newPassword && newPassword.length >= 8) {
+                message.success("Muvaffaqiyatli yangilandi!");
+            } else {
+                message.error("Yangi parol kamida 8ta belgidan iborat bo'lishi kerak");
+            }
+        } else {
+            message.error("Eski parol noto‘g‘ri");
+        }
+    };
     return (
         <>
-            <div >
+            <div className={style.block}>
+
                 <Form.Item>
                     <Button onClick={() => setComponentDisabled(!componentDisabled)}>Edit</Button>
                 </Form.Item>
-
                 <Form
                     labelCol={{ span: 4 }}
                     wrapperCol={{ span: 14 }}
-                    layout="horizontal"
+                    layout="vertical"
                     disabled={componentDisabled}
                     style={{ maxWidth: 1000 }}
                     validateMessages={validateMessages}
+                    initialValues={{
+                        user: {
+                            name: UserData.Name,
+                            email: UserData.Email,
+                        }
+                    }}
+                    onFinish={checkPassword}
                 >
-                    <Form.Item name={['user', 'Full name']} label="Full name" rules={[{ required: true }]}>
+                    <Form.Item label="" valuePropName="fileList" getValueFromEvent={normFile}>
+                        <Upload
+                            action="#"
+                            listType="picture-circle"
+                            onChange={handleChange}
+                            fileList={fileList}
+                        // showUploadList={{ showPreviewIcon: false }}
+                        >
+                            {fileList.length >= 1 ? null : uploadButton}
+                        </Upload>
+                    </Form.Item>
+                    <Form.Item name={['user', 'name']} label="Full name" rules={[{ required: true }]}>
                         <Input />
                     </Form.Item>
                     <Form.Item name={['user', 'email']} label="Email" rules={[{ type: 'email', required: true }]}>
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Password"
+                        label="Old password"
                         name="password"
+                        rules={[{ required: true, message: 'Eski parol kiriting!' }]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="New password"
+                        name="passwordConfirm"
                         rules={[{ required: true, message: 'Yangi parol kiriting!' }]}
                     >
                         <Input.Password />
                     </Form.Item>
-                    <Form.Item
-                        label="Confir your password"
-                        name="Confir your password"
-                        rules={[{ required: true, message: 'Parol bir xil emas!' }]}
-                    >
-                        <Input.Password />
-                    </Form.Item>
 
-                    <Form.Item label="Upload" valuePropName="fileList" getValueFromEvent={normFile}>
-                        <Upload action="#" listType="picture-circle" onChange={handleChange}>
-
-                            {fileList.length >= 1 ? null : uploadButton}
-                        </Upload>
+                    <Form.Item>
+                        <Button htmlType="submit" >Submit</Button>
                     </Form.Item>
                     <Form.Item>
-                        <Button >Submit</Button>
-                    </Form.Item>
-                    <Form.Item>
-                        <Button >Reset</Button>
+                        <Button htmlType="reset">Reset</Button>
                     </Form.Item>
                 </Form>
             </div >
