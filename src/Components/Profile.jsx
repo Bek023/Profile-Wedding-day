@@ -1,135 +1,24 @@
-import React, { useState } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
-import {
-    Button,
-    Form,
-    Input,
-    message,
-    Upload
-} from 'antd';
-import UserData from '../data';
+import useData from "../utils/zustand";
+import SetEdit from "./SetEdit";
 import style from "./style/Profile.module.css";
-import '@ant-design/v5-patch-for-react-19';
-const normFile = e => {
-    if (Array.isArray(e)) {
-        return e;
-    }
-    return e === null || e === void 0 ? void 0 : e.fileList;
-};
-const ProfileEdit = () => {
-    const [componentDisabled, setComponentDisabled] = useState(true);
-    const [fileList, setFileList] = useState([
-        {
-            uid: '-1',
-            name: 'profile.png',
-            status: 'done',
-            url: UserData.Image,
-        },
-    ]);
-    const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
-    const validateMessages = {
-        required: '${label} is required!',
-        types: {
-            email: '${label} is not a valid email!',
-            number: '${label} is not a valid number!',
-        }
-    };
-    const uploadButton = (
-        <button
-            style={{ color: 'inherit', cursor: 'inherit', border: 0, background: 'none' }}
-            type="button"
-        >
-            <PlusOutlined />
-            <div style={{ marginTop: 8 }}>Upload</div>
-        </button>
-    );
-    const checkPassword = (values) => {
-        const oldPassword = values.password;
-        const newPassword = values.passwordConfirm;
+import img from "../assets/Login_bg.jpg"
 
-        if (oldPassword === UserData.password) {
-            console.log("1.1")
-            if (newPassword && newPassword.length >= 8) {
-                console.log("1.2")
-                message.success("Muvaffaqiyatli yangilandi!");
-            } else {
-                console.log("0.2")
-                message.error("Yangi parol kamida 8ta belgidan iborat bo'lishi kerak");
-            }
-        } else {
-            console.log("0.1")
-            message.error("Eski parol noto‘g‘ri");
-        }
-    };
+export const Profile = () => {
+    const { data } = useData();
     return (
-        <>
-            <div className={style.block}>
+        <div className={style.container}>
+            <div className={style.header}>
 
-                
-
-
-
-                <Form
-                    labelCol={{ span: 4 }}
-                    wrapperCol={{ span: 14 }}
-                    layout="vertical"
-                    style={{ maxWidth: 1000 }}
-                    validateMessages={validateMessages}
-                    initialValues={{
-                        user: {
-                            name: UserData.Name,
-                            email: UserData.Email,
-                        }
-                    }}
-                    onFinish={checkPassword}
-                >
-                    <div className={style.form}>
-                        <Form.Item label="" valuePropName="fileList" getValueFromEvent={normFile}>
-                            <Upload
-                                action="#"
-                                listType="picture-circle"
-                                onChange={handleChange}
-                                fileList={fileList}
-                            // showUploadList={{ showPreviewIcon: false }}
-                            >
-                                {fileList.length >= 1 ? null : uploadButton}
-                            </Upload>
-                        </Form.Item>
-                        <div className={style.inputs}>
-
-                            <Form.Item name={['user', 'name']} label="Full name" >
-                                <Input />
-                            </Form.Item>
-                            <Form.Item name={['user', 'email']} label="Email" rules={[{ type: 'email' }]}>
-                                <Input />
-                            </Form.Item>
-                            <Form.Item
-                                label="Old password"
-                                name="password"
-                                rules={[{ message: 'Eski parol kiriting!' }]}
-                            >
-                                <Input.Password />
-                            </Form.Item>
-
-                            <Form.Item
-                                label="New password"
-                                name="passwordConfirm"
-                                rules={[{ message: 'Yangi parol kiriting!' }]}
-                            >
-                                <Input.Password />
-                            </Form.Item>
-
-                            <Form.Item>
-                                <Button htmlType="submit" >Submit</Button>
-                            </Form.Item>
-                            <Form.Item>
-                                <Button htmlType="reset">Reset</Button>
-                            </Form.Item>
-                        </div>
-                    </div >
-                </Form>
+                <h1>Profile</h1>
+                <SetEdit />
             </div>
-        </>
-    );
-};
-export default () => <ProfileEdit />;
+            <div className={style.profile}>
+                <img src={img} alt="profile photo" />
+                <div className={style.info}>
+                    <h2>{data.name}</h2>
+                    <p>{data.email}</p>
+                </div>
+            </div>
+        </div>
+    )
+}
