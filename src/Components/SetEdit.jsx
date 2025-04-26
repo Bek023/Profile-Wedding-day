@@ -44,16 +44,12 @@ const SetEdit = () => {
         const newPassword = values.passwordConfirm;
 
         if (oldPassword === data.password) {
-            console.log("1.1")
             if (newPassword && newPassword.length >= 8) {
-                console.log("1.2")
                 message.success("Muvaffaqiyatli yangilandi!");
             } else {
-                console.log("0.2")
                 message.error("Yangi parol kamida 8ta belgidan iborat bo'lishi kerak");
             }
         } else {
-            console.log("0.1")
             message.error("Eski parol noto‘g‘ri");
         }
     };
@@ -77,7 +73,10 @@ const SetEdit = () => {
             <Button type="primary" onClick={showModal}>
                 Edit
             </Button>
-            <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Basic Modal" open={isModalOpen}
+            footer={ null}
+             onCancel={handleCancel} 
+            >
                 <div className={style.block}>
 
 
@@ -135,10 +134,7 @@ const SetEdit = () => {
                                 </Form.Item>
 
                                 <Form.Item>
-                                    <Button htmlType="submit" >Submit</Button>
-                                </Form.Item>
-                                <Form.Item>
-                                    <Button htmlType="reset">Reset</Button>
+                                    <Button type="primary" htmlType="submit" onClick={handleCancel}>Submit</Button>
                                 </Form.Item>
                             </div>
                         </div >
