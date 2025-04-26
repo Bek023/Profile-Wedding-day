@@ -73,7 +73,7 @@ const SetEdit = () => {
             <Button type="primary" onClick={showModal}>
                 Edit
             </Button>
-            <Modal title="Basic Modal" open={isModalOpen}
+            <Modal title="Edit Account" open={isModalOpen}
             footer={ null}
              onCancel={handleCancel} 
             >
@@ -136,6 +136,7 @@ const SetEdit = () => {
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit" onClick={handleCancel}>Submit</Button>
                                 </Form.Item>
+                                    <Button htmlType='reset' onClick={handleCancel} style={{ marginLeft: '10px' }}>Cancel</Button>
                             </div>
                         </div >
                     </Form>
