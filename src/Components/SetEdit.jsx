@@ -3,7 +3,7 @@ import { Button, Modal, Form, Input, message, Upload } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import style from './style/Profile.module.css';
 import '@ant-design/v5-patch-for-react-19';
-import useData from '../utils/zustand';
+import {useData} from '../utils/zustand';
 const normFile = e => {
     if (Array.isArray(e)) {
         return e;
