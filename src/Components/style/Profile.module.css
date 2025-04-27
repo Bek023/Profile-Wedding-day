@@ -33,3 +33,24 @@
     font-weight: 600;
     margin-bottom: 10px;
 }
+
+
+/* set edit */
+
+.block{
+    width: 100%;
+}
+.btnBlock{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+ /* .block span{
+    margin-bottom: 15px;
+    height: 35px;
+}
+ .block button > span{
+    margin: 0;
+}  */

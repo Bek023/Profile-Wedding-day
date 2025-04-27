@@ -2,7 +2,7 @@
 import { useEffect } from 'react'
 import './App.css'
 import Menu from './Components/Menu'
-import {useData, useComponents} from './utils/zustand'
+import { useData, useComponents } from './utils/zustand'
 import Loading from './Components/Loading'
 
 
@@ -11,13 +11,16 @@ function App() {
   const { comp } = useComponents();
 
   useEffect(() => {
+    SetLoading();
     getData();
-    
   }, []);
   useEffect(() => {
-    setTimeout(() => {
+   
+    if (data) {
       RemoveLoading();
-    }, 2000);
+    }else{
+      SetLoading();
+    };
   }, [data]);
 
   return (
